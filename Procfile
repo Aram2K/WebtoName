@@ -1,1 +1,1 @@
-web: gunicorn webapage dash:server
+web: gunicorn webapagedash:server

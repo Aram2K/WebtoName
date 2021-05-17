@@ -5,7 +5,6 @@ from dash.exceptions import PreventUpdate
 import dash_html_components as html
 from dash.dependencies import Input, Output
 import re
-import time
 from bs4 import BeautifulSoup
 import requests
 
@@ -89,8 +88,8 @@ def converter(url):
         try:
             response0 = requests.get(url)
 
-        except requests.exceptions.RequestException :
-            return "", "Their is no such website, please write a valid website with full name including https://"
+        except requests.exceptions.RequestException:
+            return "", "Their is no such website, please write a valid website with full name including 'https://'"
         b= re.findall(r'(\w+)', f"{url}")
         c =b[1:-1]
         if len(c)==2:
