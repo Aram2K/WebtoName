@@ -83,28 +83,29 @@ app.layout = html.Div(
 
 def converter(url):
     if url is None:
-        raise PreventUpdate
+        raise PreventUpdate   # if the input is empty it doesn't run the function
     else:
         try:
-            response0 = requests.get(url)
+            response0 = requests.get(url)     # checks whether the website is valid and can be requested or not
 
         except requests.exceptions.RequestException:
             return "", "Their is no such website, please write a valid website with full name including 'https://'"
-        b= re.findall(r'(\w+)', f"{url}")
+
+        b= re.findall(r'(\w+)', f"{url}")     # by using regex I cut the word that I need for further proccess
         c =b[1:-1]
         if len(c)==2:
             f =c[1]
         elif len(c)==1:
             f= c[0]
-        response= requests.get(f'https://www.google.com/search?q={f}')
+        response= requests.get(f'https://www.google.com/search?q={f}')   # I search it in google and request that page
         if response.status_code <300:
-            page = response.content
+            page = response.content                                   # I get the content of the page and parse it
             bpage = BeautifulSoup(page,'html.parser')
-            address =bpage.find_all("span", class_ ="BNeawe tAd8D AP7Wnd")
+            address =bpage.find_all("span", class_ ="BNeawe tAd8D AP7Wnd")    # Afterwards I choose the tags by the classes which contain the information I need
             a = [i.get_text() for i in address][:2]
             name =bpage.find_all("div", class_ ="BNeawe vvjwJb AP7Wnd")
             n= [i.get_text() for i in name][0]
-            return  n, " ".join(a)
+            return n, " ".join(a)                               # return the name and the info
         else:
             return "","We cant extract info from that website"
 
